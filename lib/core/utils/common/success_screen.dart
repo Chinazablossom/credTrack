@@ -26,7 +26,7 @@ class SuccessScreen extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: isLightMode(context) ? Colors.black54 : Colors.white,
+                  color: isLightMode(context) ? Colors.black54 : Colors.white70,
                   blurRadius: 10.0,
                   spreadRadius: 0.5,
                   blurStyle: BlurStyle.outer)
@@ -58,18 +58,18 @@ class SuccessScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              successSvg, fit: BoxFit.contain,
+              paymentSuccessSvg,
             ),
             20.h,
             Text(
               title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: getTextTheme(context).labelMedium,
               textAlign: TextAlign.center,
             ),
             12.h,
             Text(
               subTitle,
-              style: const TextStyle(fontSize: 18, color: Colors.grey),
+              style: getTextTheme(context).bodyMedium?.copyWith(color: getTheme(context).outline),
               textAlign: TextAlign.center,
             ),
           ],

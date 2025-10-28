@@ -46,7 +46,7 @@ class EmailVerificationController extends GetxController {
         timer.cancel();
         Get.off(() => SuccessScreen(
               title: "Email Verified!",
-              subTitle: "You can now proceed scholar",
+              subTitle: "You can now proceed CredTracker",
               onPressed: () => AuthenticationRepo.instance.screenNavigation(),
             ));
       }
