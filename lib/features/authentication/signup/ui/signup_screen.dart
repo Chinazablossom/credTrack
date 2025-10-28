@@ -65,103 +65,121 @@ class _SignUpScreenState extends State<SignUpScreen>{
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               // Name
-                              TextFormField(
-                                controller: controller.userName,
-                                textInputAction: TextInputAction.next,
-                                autovalidateMode: AutovalidateMode.onUnfocus,
-                                decoration: InputDecoration(
-                                  labelText: 'Full name',
-                                  hintText: 'John Doe',
-                                  prefixIcon: Icon( Icons.person, color: theme.outline),
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: TextFormField(
+                                  controller: controller.userName,
+                                  textInputAction: TextInputAction.next,
+                                  autovalidateMode: AutovalidateMode.onUnfocus,
+                                  decoration: InputDecoration(
+                                    labelText: 'Full name',
+                                    hintText: 'John Doe',
+                                    prefixIcon: Icon( Icons.person, color: theme.outline),
+                                  ),
+                                  validator: (name) => Validator.validateName(name),
                                 ),
-                                validator: (name) => Validator.validateName(name),
                               ),
                               14.h,
 
                               // Email
-                              TextFormField(
-                                controller: controller.email,
-                                keyboardType: TextInputType.emailAddress,
-                                textInputAction: TextInputAction.next,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  hintText: 'example@gmail.com',
-                                  prefixIcon: SvgPicture.asset(emailSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: TextFormField(
+                                  controller: controller.email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  decoration: InputDecoration(
+                                    labelText: 'Email',
+                                    hintText: 'example@gmail.com',
+                                    prefixIcon: SvgPicture.asset(emailSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                  ),
+                                  validator: (email) => Validator.validateEmail(email),
                                 ),
-                                validator: (email) => Validator.validateEmail(email),
                               ),
 
                               14.h,
 
                               // id
-                              TextFormField(
-                                controller: controller.credPalId,
-                                keyboardType: TextInputType.phone,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  labelText: 'CredPal Id',
-                                  hintText: 'e.g 21110591134',
-                                  prefixIcon: SvgPicture.asset(idSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: TextFormField(
+                                  controller: controller.credPalId,
+                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.next,
+                                  decoration: InputDecoration(
+                                    labelText: 'CredPal Id',
+                                    hintText: 'e.g 21110591134',
+                                    prefixIcon: SvgPicture.asset(idSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                  ),
+                                  validator: (id) =>
+                                      Validator.validateEmptyText(id, "ID"),
                                 ),
-                                validator: (id) =>
-                                    Validator.validateEmptyText(id, "ID"),
                               ),
 
                               14.h,
 
                               // Password
                               Obx(
-                                () => TextFormField(
-                                  controller: controller.password,
-                                  obscureText: controller.hidePassword.value,
-                                  textInputAction: TextInputAction.next,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    hintText: '********',
-                                    prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
-                                    suffixIcon: IconButton(
-                                      onPressed: () =>
-                                          controller.hidePassword.value =
-                                              !controller.hidePassword.value,
-                                      icon: SvgPicture.asset(
-                                        controller.hidePassword.value ? eyeOpen : eyeClose,
-                                        color: theme.outline, fit: BoxFit.scaleDown,
+                                () => SizedBox(
+                                  width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                  child: TextFormField(
+                                    controller: controller.password,
+                                    obscureText: controller.hidePassword.value,
+                                    textInputAction: TextInputAction.next,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    decoration: InputDecoration(
+                                      labelText: 'Password',
+                                      hintText: '********',
+                                      prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                      suffixIcon: IconButton(
+                                        onPressed: () =>
+                                            controller.hidePassword.value =
+                                                !controller.hidePassword.value,
+                                        icon: SvgPicture.asset(
+                                          controller.hidePassword.value ? eyeOpen : eyeClose,
+                                          color: theme.outline, fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
+                                    validator: (password) => Validator.validatePassword(password),
                                   ),
-                                  validator: (password) => Validator.validatePassword(password),
                                 ),
                               ),
 
                               14.h,
                               // Confirm Password
-                              TextFormField(
-                                controller: confirmPassword,
-                                obscureText: true,
-                                textInputAction: TextInputAction.done,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  labelText: 'Confirm password',
-                                  hintText: '********',
-                                  prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: TextFormField(
+                                  controller: confirmPassword,
+                                  obscureText: true,
+                                  textInputAction: TextInputAction.done,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  decoration: InputDecoration(
+                                    labelText: 'Confirm password',
+                                    hintText: '********',
+                                    prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty)
+                                      return 'Please confirm your password';
+                                    if (value != controller.password.text)
+                                      return 'Passwords do not match';
+                                    return null;
+                                  },
+                                  onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return 'Please confirm your password';
-                                  if (value != controller.password.text)
-                                    return 'Passwords do not match';
-                                  return null;
-                                },
-                                onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                               ),
 
                               16.h,
                               FilledButton(
                                 onPressed: () => controller.signUp(),
                                 style: FilledButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(50),
+                                  minimumSize: Size(
+                                   getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                    50
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -192,17 +210,17 @@ class _SignUpScreenState extends State<SignUpScreen>{
                                 ],
                               ),
                               12.h,
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton.icon(
-                                  icon: SvgPicture.asset(
-                                    googleIcSvg,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  onPressed: () => controller.googleSignIn(),
-                                  label: const Text('Sign up with Google'),
+                              OutlinedButton.icon(
+                                icon: SvgPicture.asset(
+                                  googleIcSvg,
+                                  height: 20,
+                                  width: 20,
                                 ),
+                                onPressed: () => controller.googleSignIn(),
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600), 50)
+                                ),
+                                label: const Text('Sign up with Google'),
                               ),
 
                               22.h,
@@ -244,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen>{
             ),
 
             Positioned(
-              bottom: 16,
+              bottom: getResponsiveSpacing(context,small: 16,medium: 30,large: 80),
               left: 0,
               right: 0,
               child: Center(

@@ -43,9 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                  padding: EdgeInsets.symmetric(horizontal: getResponsiveSpacing(context,small: 12, medium: 30, large: 50), vertical: 24),
                   child: Column(
                     children: [
+
                       16.h,
                       AuthCard(
                         title: 'Log in',
@@ -53,80 +54,85 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Form(
                           key: controller.loginFormKey,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              TextFormField(
-                                controller: controller.email,
-                                keyboardType: TextInputType.emailAddress,
-                                textInputAction: TextInputAction.next,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  hintText: 'example@gmail.com',
-                                  prefixIcon: SvgPicture.asset(emailSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: TextFormField(
+                                  controller: controller.email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  decoration: InputDecoration(
+                                    labelText: 'Email',
+                                    hintText: 'example@gmail.com',
+                                    prefixIcon: SvgPicture.asset(emailSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                  ),
+                                  validator: (email) => Validator.validateEmail(email),
                                 ),
-                                validator: (email) => Validator.validateEmail(email),
                               ),
-
                               14.h,
 
                               Obx(() =>
-                                  TextFormField(
-                                    controller: controller.password,
-                                    obscureText: controller.hidePassword.value,
-                                    textInputAction: TextInputAction.done,
-                                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    decoration: InputDecoration(
-                                      labelText: 'Password',
-                                      hintText: '********',
-                                      prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
-                                      suffixIcon: IconButton(
-                                        onPressed: () =>
-                                        controller.hidePassword.value =
-                                        !controller.hidePassword.value,
-                                        icon: SvgPicture.asset(
-                                          controller.hidePassword.value ? eyeOpen : eyeClose,
-                                          color: theme.outline, fit: BoxFit.scaleDown,
+                                  SizedBox(
+                                    width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                    child: TextFormField(
+                                      controller: controller.password,
+                                      obscureText: controller.hidePassword.value,
+                                      textInputAction: TextInputAction.done,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      decoration: InputDecoration(
+                                        labelText: 'Password',
+                                        hintText: '********',
+                                        prefixIcon: SvgPicture.asset(lockSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                                        suffixIcon: IconButton(
+                                          onPressed: () =>
+                                          controller.hidePassword.value =
+                                          !controller.hidePassword.value,
+                                          icon: SvgPicture.asset(
+                                            controller.hidePassword.value ? eyeOpen : eyeClose,
+                                            color: theme.outline, fit: BoxFit.scaleDown,
+                                          ),
                                         ),
                                       ),
+                                      validator: (password) => Validator.validatePassword(password),
+                                      onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                                     ),
-                                    validator: (password) => Validator.validatePassword(password),
-                                    onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                                   )),
 
                               8.h,
-
-                              Row(
-                                children: [
-                                  Obx(() =>
-                                      Checkbox(
-                                        value: controller.rememberMe.value,
-                                        onChanged: (val) =>
-                                        controller.rememberMe.value =
-                                            val ?? false,
-                                      )),
-                                  Text('Remember me', style: textTheme.bodySmall),
-                                  const Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      // TODO:forgot password screen
-                                    },
-                                    child: Text('Forgot your password?',
-                                      style: textTheme.bodySmall?.copyWith(
-                                          color: theme.primary,
-                                          fontWeight: FontWeight.w700
+                              SizedBox(
+                                width: getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),
+                                child: Row(
+                                  children: [
+                                    Obx(() =>
+                                        Checkbox(
+                                          value: controller.rememberMe.value,
+                                          onChanged: (val) =>
+                                          controller.rememberMe.value =
+                                              val ?? false,
+                                        )),
+                                    Text('Remember me', style: textTheme.bodySmall),
+                                    const Spacer(),
+                                    InkWell(
+                                      onTap: () {
+                                        // TODO:forgot password screen
+                                      },
+                                      child: Text('Forgot your password?',
+                                        style: textTheme.bodySmall?.copyWith(
+                                            color: theme.primary,
+                                            fontWeight: FontWeight.w700
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-
                               8.h,
 
                               FilledButton(
                                   onPressed: () => controller.emailAndPasswordLogin(),
                                   style: FilledButton.styleFrom(
-                                    minimumSize: Size.fromHeight(50),
+                                    minimumSize: Size(getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600), 50),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -153,14 +159,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               12.h,
 
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton.icon(
-                                  icon: SvgPicture.asset(
-                                      googleIcSvg, height: 20, width: 20),
-                                  onPressed: () => controller.googleSignIn(),
-                                  label: const Text('Log in with Google'),
-                                ),
+                              OutlinedButton.icon(
+                                icon: SvgPicture.asset(googleIcSvg, height: 20, width: 20),
+                                onPressed: () => controller.googleSignIn(),
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: Size(getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600),50),
+                                ) ,
+                                label: const Text('Log in with Google'),
                               ),
 
                               22.h,
@@ -174,7 +179,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     child: RichText(
                                       text: TextSpan(
-                                        style: textTheme.bodySmall?.copyWith(color: theme.onSurface),
+                                        style: textTheme.bodySmall?.copyWith(color: theme.onSurface,
+                                        ),
                                         children: [
                                           TextSpan(text: "Don't have an account? "),
                                           TextSpan(
@@ -194,6 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
+
                       30.h,
                     ],
                   ),
@@ -202,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
 
             Positioned(
-              bottom: 16,
+              bottom: getResponsiveSpacing(context,small: 16,medium: 30,large: 80),
               left: 0,
               right: 0,
               child: Center(

@@ -37,6 +37,8 @@ class ScreenLoader {
   }
 
   static stopLoading() {
-    Get.back();
+    if (Get.isDialogOpen == true) {
+      Get.back();
+    }
   }
 }

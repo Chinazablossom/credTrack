@@ -8,9 +8,9 @@ import '../../../../core/utils/common/screen_loader.dart';
 import '../../../../core/utils/common/snack_bars.dart';
 import '../../../../core/utils/common/network_manager.dart';
 import '../../../../core/auth/auth.dart';
-import '../../../../core/utils/exceptions/auth_exceptions.dart';
 import '../../../../core/data/repositories/user_repo.dart';
 import '../../../../core/data/local/dao/user_dao.dart';
+import '../../verification/email/ui/email-verification-screen.dart';
 
 class SignUpController extends GetxController {
   static SignUpController get instance => Get.find();
@@ -51,10 +51,8 @@ class SignUpController extends GetxController {
 
 
 
-
       final userCredential = await authInstance.signUpUserWithEmailAndPassword(
-        email.text.trim(),
-        password.text.trim(),
+        email.text.trim(), password.text.trim(),
       );
 
       final newUser = UserModel(
@@ -65,16 +63,24 @@ class SignUpController extends GetxController {
         userImage: '',
       );
 
-      await Get.put(UserRepository()).saveUserRecord(newUser);
-      await UserDao.instance.upsertUser(newUser);
-
       ScreenLoader.stopLoading();
+
+      Get.off(() => EmailVerificationScreen(userEmail: newUser.userEmail),
+          transition: Transition.rightToLeft, duration: 300.milliseconds);
+
       SnackBars.displaySnackBar(
         title: "Congratulations!",
         message: "Your account has been created!",
         isSuccess: true,
       );
-      AuthenticationRepo.instance.screenNavigation();
+
+      Future(() async {
+        try {
+          await Get.put(UserRepository()).saveUserRecord(newUser);
+          await UserDao.instance.upsertUser(newUser);
+        } catch (_) {}
+      });
+
       clearFields();
     } catch (e, st) {
       ScreenLoader.stopLoading();
@@ -121,13 +127,14 @@ class SignUpController extends GetxController {
         await UserDao.instance.upsertUser(newUser);
       }
 
-      AuthenticationRepo.instance.screenNavigation();
       SnackBars.displaySnackBar(
         title: "Congratulations!",
         message: "Your account has been created!",
         isSuccess: true,
       );
       ScreenLoader.stopLoading();
+
+      AuthenticationRepo.instance.screenNavigation();
       clearFields();
 
     } catch (e, st) {

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../features/authentication/login/ui/login_screen.dart';
+import '../../features/authentication/verification/email/ui/email-verification-screen.dart';
+import '../../features/tickets/dashboard/ui/dashboard_screen.dart';
 import '../utils/exceptions/auth_exceptions.dart';
 import '../utils/device/storage_utils.dart';
 import '../data/local/dao/user_dao.dart';
@@ -17,15 +19,20 @@ class AuthenticationRepo extends GetxController {
   screenNavigation() async {
     final user = _auth.currentUser;
     if (user != null) {
-      Get.offAll(() => const LoginScreen());
+      if (user.emailVerified) {
+        Get.offAll(() => const DashboardScreen());
+      } else {
+        Get.offAll(() => EmailVerificationScreen(
+          userEmail: _auth.currentUser?.email,
+        ));
+      }
     } else {
       await deviceStorage.writeIfNull(DeviceStorage.keyIsFirstTime, true);
-      final isFirst =
-          await deviceStorage.read(DeviceStorage.keyIsFirstTime) == true;
-
+      final isFirst = await deviceStorage.read(DeviceStorage.keyIsFirstTime) == true;
       Get.offAll(() => const LoginScreen());
     }
   }
+
 
   /// SIGN UP USER WITH EMAIL AND PASSWORD
   Future<UserCredential> signUpUserWithEmailAndPassword(
@@ -134,7 +141,8 @@ class AuthenticationRepo extends GetxController {
     try {
       await _auth.signOut();
       await UserDao.instance.clearAll();
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => LoginScreen(), transition: Transition.leftToRight,
+          duration: 500.milliseconds);
     } on FirebaseAuthException catch (e) {
       throw AuthExceptions(e.code).message;
     } on FirebaseException catch (e) {

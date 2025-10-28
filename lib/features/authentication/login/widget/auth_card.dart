@@ -17,6 +17,7 @@ class AuthCard extends StatelessWidget {
     final theme = getTheme(context);
 
     return Container(
+      width: getResponsiveSpacing(context,small: double.infinity,medium: 600,large: 700),
       decoration:BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(24)),
       color: getCardTheme(context),
@@ -32,7 +33,8 @@ class AuthCard extends StatelessWidget {
       ),
 
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 20, 12, 24),
+        padding: EdgeInsets.fromLTRB(
+            getResponsiveSpacing(context,small: 12,medium: 30,large: 50), 20, getResponsiveSpacing(context,small: 12,medium: 30,large: 50 ), 24),
         child:Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

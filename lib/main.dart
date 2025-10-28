@@ -37,6 +37,15 @@ class MyApp extends StatelessWidget {
       theme: theme.light(),
       navigatorKey: navigatorKey,
       darkTheme: theme.dark(),
+      builder: (context, child) {
+        final width = MediaQuery.sizeOf(context).width;
+        final factor = width < 360 ? 0.90 : width < 600 ? 1.00 : 1.3;
+        final base = Theme.of(context);
+        final themed = base.copyWith(
+          textTheme: base.textTheme.apply(fontSizeFactor: factor),
+        );
+        return Theme(data: themed, child: child!);
+      },
       initialBinding: CredTrackBindings(),
       home: const SplashScreen(),
     );
