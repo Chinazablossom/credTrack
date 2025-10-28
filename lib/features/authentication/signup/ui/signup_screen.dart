@@ -68,6 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen>{
                               TextFormField(
                                 controller: controller.userName,
                                 textInputAction: TextInputAction.next,
+                                autovalidateMode: AutovalidateMode.onUnfocus,
                                 decoration: InputDecoration(
                                   labelText: 'Full name',
                                   hintText: 'John Doe',

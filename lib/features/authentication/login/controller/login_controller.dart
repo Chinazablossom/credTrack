@@ -43,14 +43,15 @@ class LoginController extends GetxController {
         SnackBars.displaySnackBar(
           title: "Oh no...",
           message: "You're not connected to the internet",
-          isWarning: true
+          isWarning: true,
         );
         return;
       }
 
       ScreenLoader.openLoadingDialog("Signing in...");
 
-      final userCredentials = await AuthenticationRepo.instance.logUserInWithEmailAndPassword(
+      final userCredentials = await AuthenticationRepo.instance
+          .logUserInWithEmailAndPassword(
             email.text.trim(),
             password.text.trim(),
           );
@@ -67,19 +68,22 @@ class LoginController extends GetxController {
         );
         await UserDao.instance.upsertUser(localUser);
       }
-
-      AuthenticationRepo.instance.screenNavigation();
-
+      SnackBars.displaySnackBar(
+        title: "Welcome",
+        message: "You're now signed in",
+        isSuccess: true,
+      );
       ScreenLoader.stopLoading();
+      AuthenticationRepo.instance.screenNavigation();
+      clearFields();
     } catch (e, st) {
       ScreenLoader.stopLoading();
 
       SnackBars.displaySnackBar(
-          title: "Login Failed",
-          message: e.toString(),
-          isError: true
+        title: "Login Failed",
+        message: e.toString(),
+        isError: true,
       );
-
     } finally {
       isVerifying.value = false;
     }
@@ -97,6 +101,7 @@ class LoginController extends GetxController {
         SnackBars.displaySnackBar(
           title: "Oh no...",
           message: "You're not connected to the internet",
+          isWarning: true,
         );
         return;
       }
@@ -117,20 +122,29 @@ class LoginController extends GetxController {
         await UserDao.instance.upsertUser(localUser);
       }
 
-      AuthenticationRepo.instance.screenNavigation();
+      SnackBars.displaySnackBar(
+        title: "Welcome",
+        message: "You're now signed in",
+        isSuccess: true,
+      );
       ScreenLoader.stopLoading();
+
+      AuthenticationRepo.instance.screenNavigation();
+      clearFields();
     } catch (e, st) {
       ScreenLoader.stopLoading();
 
-        SnackBars.displaySnackBar(
-          title: "Google Sign-in Failed",
-          message: e.toString(),
-        );
-
+      SnackBars.displaySnackBar(
+        title: "Google Sign-in Failed",
+        message: e.toString(),
+      );
     } finally {
       isVerifying.value = false;
     }
   }
 
-
+  void clearFields() {
+    email.clear();
+    password.clear();
+  }
 }

@@ -17,7 +17,6 @@ class SignUpController extends GetxController {
 
   final userName = TextEditingController();
   final email = TextEditingController();
-  final countryCode = "".obs;
   final credPalId = TextEditingController();
   final password = TextEditingController();
   final hidePassword = true.obs;
@@ -47,8 +46,11 @@ class SignUpController extends GetxController {
       }
 
       ScreenLoader.openLoadingDialog(
-        "We're creating your account - hang tight!",
+        "We're creating your account \n hang tight!",
       );
+
+
+
 
       final userCredential = await authInstance.signUpUserWithEmailAndPassword(
         email.text.trim(),
@@ -65,19 +67,20 @@ class SignUpController extends GetxController {
 
       await Get.put(UserRepository()).saveUserRecord(newUser);
       await UserDao.instance.upsertUser(newUser);
+
       ScreenLoader.stopLoading();
       SnackBars.displaySnackBar(
         title: "Congratulations!",
         message: "Your account has been created!",
         isSuccess: true,
       );
-
       AuthenticationRepo.instance.screenNavigation();
+      clearFields();
     } catch (e, st) {
       ScreenLoader.stopLoading();
       SnackBars.displaySnackBar(
         title: "Sign up Failed",
-        message: "Something went wrong. Please try again.",
+        message: e.toString(),
         isError: true,
       );
     } finally {
@@ -103,7 +106,6 @@ class SignUpController extends GetxController {
       }
 
       ScreenLoader.openLoadingDialog("Signing in with Google...");
-
       await AuthenticationRepo.instance.signInWithGoogle();
 
       final u = FirebaseAuth.instance.currentUser;
@@ -119,8 +121,15 @@ class SignUpController extends GetxController {
         await UserDao.instance.upsertUser(newUser);
       }
 
-      ScreenLoader.stopLoading();
       AuthenticationRepo.instance.screenNavigation();
+      SnackBars.displaySnackBar(
+        title: "Congratulations!",
+        message: "Your account has been created!",
+        isSuccess: true,
+      );
+      ScreenLoader.stopLoading();
+      clearFields();
+
     } catch (e, st) {
       ScreenLoader.stopLoading();
       SnackBars.displaySnackBar(
@@ -128,9 +137,15 @@ class SignUpController extends GetxController {
         message: e.toString(),
         isError: true,
       );
-
     } finally {
       isVerifying.value = false;
     }
+  }
+
+  void clearFields() {
+    userName.clear();
+    email.clear();
+    credPalId.clear();
+    password.clear();
   }
 }

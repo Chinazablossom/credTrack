@@ -31,20 +31,20 @@ class AuthCard extends StatelessWidget {
         ],
       ),
 
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(12, 20, 12, 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            8.h,
-            Text(title, style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)),
-            6.h,
-            Text(subtitle, style: textTheme.bodyMedium?.copyWith(color: theme.onSurfaceVariant)),
-            20.h,
-            child,
-          ],
+        child:Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              8.h,
+              Text(title, style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900)),
+              6.h,
+              Text(subtitle, style: textTheme.bodyMedium?.copyWith(color: theme.onSurfaceVariant)),
+              20.h,
+              child,
+            ],
+          ),
         ),
-      ),
     );
   }
 }

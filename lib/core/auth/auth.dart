@@ -95,14 +95,24 @@ class AuthenticationRepo extends GetxController {
   /// GOOGLE SIGN IN
   Future<UserCredential> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+      try {
+        await googleSignIn.disconnect();
+      } catch (_) {}
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        throw PlatformException(
+            code: 'user-cancelled', message: 'Sign-in was cancelled');
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser
+          .authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       return await _auth.signInWithCredential(credential);
