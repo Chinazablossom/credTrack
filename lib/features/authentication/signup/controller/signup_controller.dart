@@ -63,6 +63,17 @@ class SignUpController extends GetxController {
         userImage: '',
       );
 
+      try {
+        await Get.put(UserRepository()).saveUserRecord(newUser);
+      } catch (e) {
+        SnackBars.displaySnackBar(
+          title: "Oh snap!...",
+          message: "We couldn't save your details ${e.toString()}",
+          isError: true,
+        );
+      }
+      await UserDao.instance.upsertUser(newUser);
+
       ScreenLoader.stopLoading();
 
       Get.off(() => EmailVerificationScreen(userEmail: newUser.userEmail),
@@ -73,13 +84,6 @@ class SignUpController extends GetxController {
         message: "Your account has been created!",
         isSuccess: true,
       );
-
-      Future(() async {
-        try {
-          await Get.put(UserRepository()).saveUserRecord(newUser);
-          await UserDao.instance.upsertUser(newUser);
-        } catch (_) {}
-      });
 
       clearFields();
     } catch (e, st) {
@@ -124,6 +128,9 @@ class SignUpController extends GetxController {
           userImage: u.photoURL ?? '',
         );
 
+        try {
+          await Get.put(UserRepository()).saveUserRecord(newUser);
+        } catch (_) {}
         await UserDao.instance.upsertUser(newUser);
       }
 

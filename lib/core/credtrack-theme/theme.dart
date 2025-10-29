@@ -168,6 +168,7 @@ class MaterialTheme {
           fontFamily: "Capriola",
           fontSize: 16,
         ),
+
         hintStyle: const TextStyle().copyWith(fontSize: 14, fontFamily: "Capriola", color: Colors.grey[700]),
         filled: true,
         fillColor: Color(0x73c7c7c9),

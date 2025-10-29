@@ -13,7 +13,7 @@ class CTBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => Get.back(),
       child: Container(
         height: 40,

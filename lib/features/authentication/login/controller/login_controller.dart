@@ -68,6 +68,8 @@ class LoginController extends GetxController {
         );
         await UserDao.instance.upsertUser(localUser);
       }
+
+
       SnackBars.displaySnackBar(
         title: "Welcome",
         message: "You're now signed in",

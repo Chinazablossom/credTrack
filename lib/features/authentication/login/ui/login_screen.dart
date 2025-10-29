@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-
             Positioned.fill(
               child: SvgPicture.asset(
                 getBg(context),
