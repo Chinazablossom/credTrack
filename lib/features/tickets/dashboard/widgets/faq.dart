@@ -34,7 +34,7 @@ class FaqScroller extends StatelessWidget {
             child: Container(
               width: 220,
               decoration: BoxDecoration(
-                color:theme.secondaryContainer.withValues(alpha: 0.7),
+                color:theme.secondaryContainer.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
