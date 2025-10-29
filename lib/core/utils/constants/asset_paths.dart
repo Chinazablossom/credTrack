@@ -15,6 +15,7 @@ const copySvg = "assets/svg/copy.svg";
 const deleteSvg = "assets/svg/delete_ic.svg";
 const emailSvg = "assets/svg/email.svg";
 const emailVerifiedSvg = "assets/svg/email_verif.svg";
+const emptyTicketsSvg = "assets/svg/empty_tickets.svg";
 const eyeClose = "assets/svg/eye_close.svg";
 const eyeOpen = "assets/svg/eye_open.svg";
 const fallbackImage = "assets/svg/fallback.svg";
