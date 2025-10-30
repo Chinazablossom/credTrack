@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../features/authentication/login/ui/login_screen.dart';
 import '../../features/authentication/verification/email/ui/email-verification-screen.dart';
-import '../../features/tickets/dashboard/ui/dashboard_screen.dart';
+import '../../features/main/dashboard/ui/dashboard_screen.dart';
 import '../utils/exceptions/auth_exceptions.dart';
 import '../utils/device/storage_utils.dart';
 import '../data/local/dao/user_dao.dart';

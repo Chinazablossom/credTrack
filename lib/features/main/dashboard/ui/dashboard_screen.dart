@@ -97,7 +97,7 @@ class DashboardScreen extends GetView<TicketController> {
                         Text(
                           name.isEmpty ? 'Hi 👋🏽' : 'Hi, $name 👋🏽',
                           style: textTheme.titleSmall?.copyWith(
-                            color: theme.onSurfaceVariant,
+                            color: theme.inverseSurface,
                           ),
                         ),
                         Spacer(),
@@ -154,65 +154,79 @@ class DashboardScreen extends GetView<TicketController> {
 
 
             return Positioned(
-              top: 180,
+              top: 185,
               left: 0,
               right: 0,
-              child: Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: controller.tickets.length,
-                  separatorBuilder: (_, __) => 12.h,
-                  itemBuilder: (context, index) {
-                    final ticket = controller.tickets[index];
-                    return InkWell(
-                      onTap: () => Get.to(() => TicketDetailsScreen(ticket: ticket),
-                        transition: Transition.rightToLeft,
-                        duration: 500.milliseconds
-                      ),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+              bottom: 0,
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: controller.tickets.length,
+                separatorBuilder: (_, __) => 12.h,
+                itemBuilder: (context, index) {
+                  final ticket = controller.tickets[index];
+                  return InkWell(
+                    onTap: () => Get.to(() => TicketDetailsScreen(ticket: ticket),
+                      transition: Transition.rightToLeft,
+                      duration: 500.milliseconds
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: getCardTheme(context),
+                        borderRadius: BorderRadius.all(Radius.circular(16),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(ticket.category, style: textTheme.labelLarge),
-                                    4.h,
-                                    Text(
-                                      ticket.title,
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: theme.onSurfaceVariant,
-                                      ),
-                                    ),
-                                    8.h,
-                                    Text(
-                                      DateFormat('On MMM dd, yyyy - HH:mm: a').format(
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                          ticket.createdAt,
-                                        ).toLocal(),
-                                      ),
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: theme.onSurfaceVariant,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              12.w,
-                              StatusChip(status: ticket.status),
-                            ],
+                        boxShadow: [
+                          BoxShadow(
+                            color: isLightMode(context)
+                                ? Colors.black.withValues(alpha: 0.16)
+                                : Colors.black.withValues(alpha: 0.38),
+                            blurRadius: 2,
+                            offset: const Offset(0, 3),
                           ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(ticket.category, style: textTheme.labelSmall?.copyWith(
+                                    color: theme.onSurfaceVariant
+                                  )),
+                                  4.h,
+                                  Text(
+                                    ticket.title,
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: theme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                  8.h,
+                                  Text(
+                                    DateFormat('On MMM dd, yyyy - HH:mm: a').format(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                        ticket.createdAt,
+                                      ).toLocal(),
+                                    ),
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: theme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            12.w,
+                            StatusChip(status: ticket.status),
+
+                          ],
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             );
 

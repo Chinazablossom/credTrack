@@ -39,8 +39,9 @@ Color getProfileTheme(BuildContext context) {
       ? Color(0xffF5F5FA)
       : MaterialTheme.darkScheme().surfaceContainer;
 }
+
 Color getMiniCardTheme(BuildContext context) {
-  return isLightMode(context) ? const Color(0xFFE6E6EB) : getTheme(context).secondaryContainer;
+  return isLightMode(context) ? const Color(0xFFE2E2E7) : getTheme(context).primary.withValues(alpha: 0.5);
 }
 
 Color getTextFieldTheme(BuildContext context) {
