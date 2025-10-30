@@ -19,11 +19,11 @@ class UpdateBubble extends StatelessWidget {
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
         decoration: BoxDecoration(
-          color: update.sender == 'User' ? theme.secondaryContainer.withValues(alpha: 0.5) : theme.tertiaryContainer.withValues(alpha: 0.6),
+          color: update.sender == 'User' ? theme.tertiaryContainer.withValues(alpha: 0.6)  : theme.secondaryContainer.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(update.message, style: textTheme.bodySmall?.copyWith(
-          color: update.sender == 'User' ? isLightMode(context) ? theme.onSecondaryContainer : Colors.white : Colors.white,
+          color: update.sender == 'User' ?  Colors.white : isLightMode(context) ? theme.onSecondaryContainer : Colors.white,
         )),
       ),
     );

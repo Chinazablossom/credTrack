@@ -97,10 +97,10 @@ class TicketDetailsScreen extends StatelessWidget {
             right: 0,
             child: Column(
               children: [
-                // Header
-                TicketHeaderCard(ticket: ticket),
+                // Header and description react to controller.ticket
+                Obx(() => TicketHeaderCard(ticket: controller.ticket.value)),
 
-                DescriptionCard(ticket: ticket),
+                Obx(() => DescriptionCard(ticket: controller.ticket.value)),
                 12.h,
 
                 Padding(
