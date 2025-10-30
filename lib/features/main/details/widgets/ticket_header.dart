@@ -33,7 +33,7 @@ class TicketHeaderCard extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 12,right: 12,top: 12 ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,10 +60,10 @@ class TicketHeaderCard extends StatelessWidget {
             Row(
               children: [
                 txtMapper(textTheme, 'Category ', ticket.category),
-                txtMapper(textTheme, 'Ref', ticket.transactionRef ?? '——'),
+                txtMapper(textTheme, 'Ref', ticket.transactionRef ?? '123x4657f89890'),
               ],
             ),
-            12.h,
+            8.h,
             Text('Created: ${DateFormat('On MMM dd, yyyy HH:mm a').format(
                 DateTime.fromMillisecondsSinceEpoch(ticket.createdAt))}',
                 style: textTheme.bodySmall?.copyWith(

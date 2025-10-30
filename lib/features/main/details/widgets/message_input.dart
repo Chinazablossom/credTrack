@@ -14,37 +14,34 @@ class MessageInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = getTheme(context);
-    return SafeArea(
-      top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller.messageCtrl,
-                decoration: InputDecoration(
-                  hintText: 'Type your message…',
-                  filled: true,
-                  fillColor: getCardTheme(context),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controller.messageCtrl,
+              decoration: InputDecoration(
+                hintText: 'Type your message…',
+                filled: true,
+                fillColor: getCardTheme(context),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide.none,
                 ),
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => onSend(),
+                contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 12),
               ),
+              textInputAction: TextInputAction.send,
+              onSubmitted: (_) => onSend(),
             ),
-            8.w,
-            FloatingActionButton.small(
-              onPressed: onSend,
-              child: const Icon(CupertinoIcons.paperplane_fill),
-            ),
-          ],
-        ),
+          ),
+          8.w,
+          FloatingActionButton.small(
+            onPressed: onSend,
+            child: const Icon(CupertinoIcons.paperplane_fill),
+          ),
+        ],
       ),
     );
   }

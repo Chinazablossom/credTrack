@@ -194,17 +194,17 @@ class DashboardScreen extends GetView<TicketController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(ticket.category, style: textTheme.labelSmall?.copyWith(
+                                  Text(ticket.title, style: textTheme.labelSmall?.copyWith(
                                     color: theme.onSurfaceVariant
                                   )),
-                                  4.h,
+                                  8.h,
                                   Text(
-                                    ticket.title,
+                                   "Category:  ${ticket.category}",
                                     style: textTheme.bodySmall?.copyWith(
                                       color: theme.onSurfaceVariant,
                                     ),
                                   ),
-                                  8.h,
+                                  4.h,
                                   Text(
                                     DateFormat('On MMM dd, yyyy - HH:mm: a').format(
                                       DateTime.fromMillisecondsSinceEpoch(
@@ -236,6 +236,3 @@ class DashboardScreen extends GetView<TicketController> {
     );
   }
 }
-
-
-

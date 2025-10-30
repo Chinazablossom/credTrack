@@ -16,7 +16,7 @@ class StatusChip extends StatelessWidget {
         bg = Colors.blue;
         break;
       default:
-        bg = Colors.amber;
+        bg = Color(0xffff9307);
     }
     return Chip(
       label: Text(status, style: const TextStyle(color: Colors.white)),
