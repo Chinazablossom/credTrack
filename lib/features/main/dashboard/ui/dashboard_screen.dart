@@ -6,12 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../../../../core/utils/common/snack_bars.dart';
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 import '../../controller/ticket_controller.dart';
 import '../../details/ui/ticket_details_screen.dart';
 import '../../create/ui/create_ticket_screen.dart';
 import '../widgets/faq.dart';
 import '../widgets/status_chip.dart';
+import '../../../../core/data/local/dao/ticket_dao.dart';
 
 class DashboardScreen extends GetView<TicketController> {
   const DashboardScreen({super.key});
@@ -167,76 +169,103 @@ class DashboardScreen extends GetView<TicketController> {
                 separatorBuilder: (_, __) => 12.h,
                 itemBuilder: (context, index) {
                   final ticket = controller.tickets[index];
-                  return InkWell(
-                    onTap: () => Get.to(() => TicketDetailsScreen(ticket: ticket),
-                      transition: Transition.rightToLeft,
-                      duration: 500.milliseconds
-                    ),
-                    child: Container(
+                  return Dismissible(
+                    key: ValueKey(ticket.ticketId),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
-                        color: getCardTheme(context),
-                        borderRadius: BorderRadius.all(Radius.circular(16),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: isLightMode(context)
-                                ? Colors.black.withValues(alpha: 0.16)
-                                : Colors.black.withValues(alpha: 0.38),
-                            blurRadius: 2,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
+                        color: Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(CupertinoIcons.tickets,color: theme.outline,size: 18, ),
-                                      4.w,
-                                      Text(ticket.title, style: textTheme.labelSmall?.copyWith(
-                                        color: theme.onSurfaceVariant
-                                      )),
-                                    ],
-                                  ),
-                                  8.h,
-                                  Text(
-                                   "Category:  ${ticket.category}",
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: theme.onSurfaceVariant,
-                                    ),
-                                  ),
-                                 8.h,
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(clockSvg, color: theme.outline, fit: BoxFit.scaleDown,height: 16,width: 16,),
-                                      4.w,
-                                      Text(
-                                        DateFormat('On MMM dd, yyyy - HH:mm: a').format(
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                            ticket.createdAt,
-                                          ).toLocal(),
-                                        ),
-                                        style: textTheme.bodySmall?.copyWith(
-                                          color: theme.onSurfaceVariant,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                      child: SvgPicture.asset(deleteSvg, fit: BoxFit.scaleDown,),
+                    ),
+                    onDismissed: (_) async {
+                      await TicketDao.instance.deleteTicket(ticket.ticketId);
+                      controller.tickets.removeWhere((t) =>
+                      t.ticketId == ticket.ticketId);
+                      SnackBars.displaySnackBar(title: 'Deleted', message: 'Ticket removed',isSuccess: true);
+                    },
+                    child: InkWell(
+                      onTap: () =>
+                          Get.to(() => TicketDetailsScreen(ticket: ticket),
+                              transition: Transition.rightToLeft,
+                              duration: 500.milliseconds
+                          ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: getCardTheme(context),
+                          borderRadius: BorderRadius.all(Radius.circular(16),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: isLightMode(context)
+                                  ? Colors.black.withValues(alpha: 0.16)
+                                  : Colors.black.withValues(alpha: 0.38),
+                              blurRadius: 2,
+                              offset: const Offset(0, 3),
                             ),
-                            12.w,
-                            StatusChip(status: ticket.status),
-
                           ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(CupertinoIcons.tickets,
+                                          color: theme.outline, size: 18,),
+                                        4.w,
+                                        Text(ticket.title,
+                                            style: textTheme.labelSmall
+                                                ?.copyWith(
+                                                color: theme.onSurfaceVariant
+                                            )),
+                                      ],
+                                    ),
+                                    8.h,
+                                    Text(
+                                      "Category:  ${ticket.category}",
+                                      style: textTheme.bodySmall?.copyWith(
+                                        color: theme.onSurfaceVariant,
+                                      ),
+                                    ),
+                                    8.h,
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          clockSvg, color: theme.outline,
+                                          fit: BoxFit.scaleDown,
+                                          height: 16,
+                                          width: 16,),
+                                        4.w,
+                                        Text(
+                                          DateFormat(
+                                              'On MMM dd, yyyy - HH:mm: a')
+                                              .format(
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                              ticket.createdAt,
+                                            ).toLocal(),
+                                          ),
+                                          style: textTheme.bodySmall?.copyWith(
+                                            color: theme.onSurfaceVariant,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              12.w,
+                              StatusChip(status: ticket.status),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -244,7 +273,6 @@ class DashboardScreen extends GetView<TicketController> {
                 },
               ),
             );
-
           }),
         ],
       ),

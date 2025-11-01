@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../../../core/data/models/ticket.dart';
+import '../../../../core/utils/common/snack_bars.dart';
 import '../../../../core/utils/constants/asset_paths.dart';
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 import '../controller/admin_tickets_controller.dart';
@@ -140,8 +141,8 @@ class AdminTicketDetails extends StatelessWidget {
                       ticket.ticketId,
                       status.value,
                     );
-                    Get.snackbar('Saved', 'Status updated');
-                  },
+                    SnackBars.displaySnackBar(title: 'Saved', message: 'Status Updated',isSuccess: true);
+                    },
                   style: FilledButton.styleFrom(
                     shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
                   ),
