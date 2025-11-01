@@ -1,8 +1,4 @@
 
-/// IMAGES
-const appBgImage = "assets/images/bg image.webp";
-
-
 /// SVG
 const arrowBackSvg = "assets/svg/arrow_back.svg";
 const alertSvg = "assets/svg/alert.svg";
@@ -26,8 +22,6 @@ const outlinedAlertSvg = "assets/svg/outlined_alert.svg";
 const paymentSuccessSvg = "assets/svg/payment_success.svg";
 const phoneSvg = "assets/svg/phone.svg";
 const refreshSvg = "assets/svg/refresh.svg";
-const searchSvg = "assets/svg/search.svg";
-const successSvg = "assets/svg/success.svg";
 const supportSvg = "assets/svg/support.svg";
 const ticketIdSvg = "assets/svg/tid.svg";
 const verifyEmailSvg = "assets/svg/verif_email.svg";
