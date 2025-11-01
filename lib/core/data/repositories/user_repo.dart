@@ -23,7 +23,7 @@ class UserRepository extends GetxController {
     }
   }
 
-  /// Stream the current user's profile document
+
   Stream<UserModel?> streamUserById(String uid) {
     return _db.collection('users').doc(uid).snapshots().map((snap) {
       if (!snap.exists) return null;
@@ -31,7 +31,7 @@ class UserRepository extends GetxController {
     });
   }
 
-  /// Fetch the current user's profile document once
+
   Future<UserModel?> getUserById(String uid) async {
     try {
       final doc = await _db.collection('users').doc(uid).get();
@@ -42,7 +42,6 @@ class UserRepository extends GetxController {
     }
   }
 
-  /// Update fields in the user's document
   Future<void> updateUser(String uid, Map<String, dynamic> data) async {
     await _db.collection('users').doc(uid).update(data);
   }
