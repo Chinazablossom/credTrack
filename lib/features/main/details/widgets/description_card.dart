@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cred_track/core/utils/helper_functions/extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/data/models/ticket.dart';
+import '../../../../core/utils/constants/asset_paths.dart';
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 
 class DescriptionCard extends StatelessWidget {
@@ -44,22 +48,46 @@ class DescriptionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Issue Details', style: textTheme.labelMedium),
-            8.h,
-            if ((ticket.evidencePath ?? '').isNotEmpty)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  ticket.evidencePath!,
-                  height: 140,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
-                ),
-              ),
-            if ((ticket.evidencePath ?? '').isNotEmpty) 8.h,
+            Row(
+              children: [
+                SvgPicture.asset(complaintSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                4.w,
+                Text('Issue Details', style: textTheme.labelMedium),
+              ],
+            ),
+            12.h,
             Text(ticket.description, style: textTheme.bodyMedium),
-            8.h,
+            16.h,
+            if ((ticket.evidencePath ?? '')
+                .trim()
+                .isNotEmpty)
+              Builder(builder: (_) {
+                final path = ticket.evidencePath!.trim();
+                final isNetwork = path.startsWith('http://') ||
+                    path.startsWith('https://');
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: isNetwork
+                      ? Image.network(
+                    path,
+                    height: 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const SizedBox(),
+                  )
+                      : Image.file(
+                    File(path),
+                    height: 140,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const SizedBox(),
+                  ),
+                );
+              }),
+            if ((ticket.evidencePath ?? '')
+                .trim()
+                .isNotEmpty) 8.h,
+            12.h,
             Text(
               'Last updated: On $lastUpdated',
               style: textTheme.bodySmall?.copyWith(

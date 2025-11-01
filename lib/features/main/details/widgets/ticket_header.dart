@@ -1,8 +1,11 @@
 import 'package:cred_track/core/utils/helper_functions/extention.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/data/models/ticket.dart';
+import '../../../../core/utils/constants/asset_paths.dart';
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 import '../../dashboard/widgets/status_chip.dart';
 
@@ -44,12 +47,25 @@ class TicketHeaderCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Ticket ID: ${ticket.ticketId.substring(0, 8)}',
-                          style: textTheme.bodyMedium?.copyWith(
-                              color: theme.onSurfaceVariant)),
+                      Row(
+                        children: [
+                          SvgPicture.asset(ticketIdSvg, color: theme.outline, fit: BoxFit.scaleDown,height: 20),
+                          4.w,
+
+                          Text('Ticket ID: ${ticket.ticketId.substring(0, 8)}',
+                              style: textTheme.bodyMedium?.copyWith(
+                                  color: theme.onSurfaceVariant)),
+                        ],
+                      ),
                       12.h,
-                      Text(ticket.title, style: textTheme.labelMedium?.copyWith(
-                          fontWeight: FontWeight.w700)),
+                      Row(
+                        children: [
+                          Icon(CupertinoIcons.tickets,color: theme.outline,size: 18, ),
+                          4.w,
+                          Text(ticket.title, style: textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w700)),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -64,10 +80,16 @@ class TicketHeaderCard extends StatelessWidget {
               ],
             ),
             8.h,
-            Text('Created: ${DateFormat('On MMM dd, yyyy HH:mm a').format(
-                DateTime.fromMillisecondsSinceEpoch(ticket.createdAt))}',
-                style: textTheme.bodySmall?.copyWith(
-                    color: theme.onSurfaceVariant)),
+            Row(
+              children: [
+                SvgPicture.asset(clockSvg, color: theme.outline, fit: BoxFit.scaleDown,height: 17,width: 16,),
+                4.w,
+                Text('Created: ${DateFormat('On MMM dd, yyyy HH:mm a').format(
+                    DateTime.fromMillisecondsSinceEpoch(ticket.createdAt))}',
+                    style: textTheme.bodySmall?.copyWith(
+                        color: theme.onSurfaceVariant)),
+              ],
+            ),
             12.h,
           ],
         ),

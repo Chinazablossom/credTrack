@@ -1,5 +1,6 @@
 import 'package:cred_track/core/utils/constants/asset_paths.dart';
 import 'package:cred_track/core/utils/helper_functions/extention.dart';
+import 'package:cred_track/features/main/profile/ui/profile_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ class DashboardScreen extends GetView<TicketController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(TicketController(), permanent: true);
     final theme = getTheme(context);
     final textTheme = getTextTheme(context);
 
@@ -40,7 +40,7 @@ class DashboardScreen extends GetView<TicketController> {
             child: Obx(() {
               final name = controller.currentUser.value?.userName.split(" ")[0]  ?? '';
               return Container(
-                height: 90,
+                height: 86,
                 decoration: BoxDecoration(
                   color: getCardTheme(context),
                   borderRadius: BorderRadius.only(
@@ -52,7 +52,7 @@ class DashboardScreen extends GetView<TicketController> {
                       color: isLightMode(context)
                           ? Colors.black.withValues(alpha: 0.16)
                           : Colors.black.withValues(alpha: 0.38),
-                      blurRadius: 10,
+                      blurRadius: 3,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -68,27 +68,30 @@ class DashboardScreen extends GetView<TicketController> {
                       children: [
                         Obx(() {
                           final imageUrl = controller.currentUser.value?.userImage ?? '';
-                          return Container(
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: theme.outline),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: imageUrl.isNotEmpty
-                                ? Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, _, _) => Icon(
-                                Icons.person,
-                                color: theme.outline,
+                          return InkWell(
+                            onTap: () => Get.to(() => ProfileScreen(),transition: Transition.fadeIn,duration: 400.milliseconds),
+                            child: Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: theme.outline),
                               ),
-                            )
-                                : Center(
-                              child: Icon(
-                                Icons.person,
-                                color: theme.outline,
+                              clipBehavior: Clip.antiAlias,
+                              child: imageUrl.isNotEmpty
+                                  ? Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) => Icon(
+                                  Icons.person,
+                                  color: theme.outline,
+                                ),
+                              )
+                                  : Center(
+                                child: Icon(
+                                  Icons.person,
+                                  color: theme.outline,
+                                ),
                               ),
                             ),
                           );
@@ -194,9 +197,15 @@ class DashboardScreen extends GetView<TicketController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(ticket.title, style: textTheme.labelSmall?.copyWith(
-                                    color: theme.onSurfaceVariant
-                                  )),
+                                  Row(
+                                    children: [
+                                      Icon(CupertinoIcons.tickets,color: theme.outline,size: 18, ),
+                                      4.w,
+                                      Text(ticket.title, style: textTheme.labelSmall?.copyWith(
+                                        color: theme.onSurfaceVariant
+                                      )),
+                                    ],
+                                  ),
                                   8.h,
                                   Text(
                                    "Category:  ${ticket.category}",
@@ -204,16 +213,22 @@ class DashboardScreen extends GetView<TicketController> {
                                       color: theme.onSurfaceVariant,
                                     ),
                                   ),
-                                  4.h,
-                                  Text(
-                                    DateFormat('On MMM dd, yyyy - HH:mm: a').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                        ticket.createdAt,
-                                      ).toLocal(),
-                                    ),
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: theme.onSurfaceVariant,
-                                    ),
+                                 8.h,
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(clockSvg, color: theme.outline, fit: BoxFit.scaleDown,height: 16,width: 16,),
+                                      4.w,
+                                      Text(
+                                        DateFormat('On MMM dd, yyyy - HH:mm: a').format(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                            ticket.createdAt,
+                                          ).toLocal(),
+                                        ),
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: theme.onSurfaceVariant,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

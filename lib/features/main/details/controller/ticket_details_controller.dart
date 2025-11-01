@@ -1,7 +1,10 @@
+import 'package:cred_track/core/utils/constants/asset_paths.dart';
 import 'package:cred_track/core/utils/helper_functions/extention.dart';
 import 'package:cred_track/core/utils/helper_functions/helper_functions.dart';
-import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/data/local/dao/ticket_dao.dart';
 import '../../../../core/data/models/ticket.dart';
@@ -105,27 +108,39 @@ class TicketDetailsController extends GetxController {
                 TextFormField(
                   controller: titleCtrl,
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  decoration: InputDecoration(labelText: 'Title',
+                    prefixIcon: Icon(CupertinoIcons.tickets,color: theme.outline,size: 18, ),
+                  ),
                 ),
                 14.h,
 
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(outlinedAlertSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                      6.w,
+                      Text(
+                        'Issue Type',
+                        style: textTheme.bodySmall?.copyWith(
+                          color: theme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                2.h,
                 DropdownButtonFormField<String>(
                   value: categoryCtrl.text,
                   style: textTheme.bodyMedium,
                   borderRadius: BorderRadius.circular(12),
                   items: const [
-                    DropdownMenuItem(
-                      value: 'General',
-                      child: Text('General'),
-                    ),
+                    DropdownMenuItem(value: 'General', child: Text('General')),
                     DropdownMenuItem(
                       value: 'Payments',
                       child: Text('Payments'),
                     ),
-                    DropdownMenuItem(
-                      value: 'Account',
-                      child: Text('Account'),
-                    ),
+                    DropdownMenuItem(value: 'Account', child: Text('Account')),
                     DropdownMenuItem(value: 'Wallet', child: Text('Wallet')),
                     DropdownMenuItem(value: 'Bills', child: Text('Bills')),
                     DropdownMenuItem(value: 'Card', child: Text('Card')),
@@ -137,11 +152,14 @@ class TicketDetailsController extends GetxController {
                 TextFormField(
                   controller: descCtrl,
                   minLines: 3,
-                  maxLines: 5,
-                  decoration: const InputDecoration(labelText: 'Description'),
+                  maxLines: 8,
+                  decoration: InputDecoration(labelText: 'Description',
+                    prefixIcon: SvgPicture.asset(complaintSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+
+                  ),
                 ),
 
-                const SizedBox(height: 16),
+                16.h,
                 ElevatedButton(
                   onPressed: () async {
                     final updated = TicketModel(
@@ -176,13 +194,9 @@ class TicketDetailsController extends GetxController {
                       } else {
                         await listCtrl.loadUserAndTickets();
                       }
-                    } catch (_) {
+                    } catch (_) {}
 
-                    }
-
-                    final now = DateTime
-                        .now()
-                        .millisecondsSinceEpoch;
+                    final now = DateTime.now().millisecondsSinceEpoch;
                     await TicketDao.instance.insertUpdate(
                       TicketUpdateModel(
                         updateId: 'sys_$now',
@@ -196,10 +210,9 @@ class TicketDetailsController extends GetxController {
                     await loadUpdates();
                     Get.back();
                     SnackBars.displaySnackBar(
-                        title: 'Saved',
-                        message: 'Ticket updated successfully',
-                      isSuccess: true
-
+                      title: 'Saved',
+                      message: 'Ticket updated successfully',
+                      isSuccess: true,
                     );
                   },
                   child: const Text('Save changes'),

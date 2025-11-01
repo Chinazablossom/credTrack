@@ -1,10 +1,11 @@
-import 'dart:io';
 import 'package:cred_track/core/utils/common/back_button.dart';
+import 'package:cred_track/core/utils/constants/asset_paths.dart';
 import 'package:cred_track/core/utils/helper_functions/extention.dart';
 import 'package:cred_track/core/utils/helper_functions/validators.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 import '../../dashboard/widgets/evidence_preview.dart';
@@ -40,7 +41,7 @@ class CreateTicketScreen extends GetView<CreateTicketController> {
                     color: isLightMode(context)
                         ? Colors.black.withValues(alpha: 0.16)
                         : Colors.black.withValues(alpha: 0.38),
-                    blurRadius: 10,
+                    blurRadius: 2,
                     offset: const Offset(0, 5),
                   ),
                 ],
@@ -103,9 +104,10 @@ class CreateTicketScreen extends GetView<CreateTicketController> {
                       TextFormField(
                         controller: controller.txRefCtrl,
                         keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           labelText: 'Transaction ID (optional)',
                           hintText: "eg. TXN-1234567890",
+                          prefixIcon: SvgPicture.asset(ticketIdSvg, color: theme.outline, fit: BoxFit.scaleDown),
                         ),
                       ),
 
@@ -113,13 +115,20 @@ class CreateTicketScreen extends GetView<CreateTicketController> {
 
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Issue Type',
-                          style: textTheme.bodySmall?.copyWith(
-                            color: theme.onSurfaceVariant,
-                          ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(outlinedAlertSvg, color: theme.outline, fit: BoxFit.scaleDown,),
+                            6.w,
+                            Text(
+                              'Issue Type',
+                              style: textTheme.bodySmall?.copyWith(
+                                color: theme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      2.h,
                       Obx(
                         () => DropdownButtonFormField<String>(
                           value: controller.category.value,
@@ -159,7 +168,9 @@ class CreateTicketScreen extends GetView<CreateTicketController> {
                       14.h,
                       TextFormField(
                         controller: controller.titleCtrl,
-                        decoration: const InputDecoration(labelText: 'Title'),
+                        decoration: InputDecoration(labelText: 'Title',
+                          prefixIcon:  Icon(CupertinoIcons.tickets,color: theme.outline,size: 18, ),
+                        ),
                         validator: (title) => Validator.validateEmptyText("Title", title),
                       ),
 
@@ -168,9 +179,10 @@ class CreateTicketScreen extends GetView<CreateTicketController> {
                         controller: controller.descCtrl,
                         minLines: 4,
                         maxLines: 6,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Description',
                           hintText: 'Describe your issue here, please be as detailed as possible.',
+                          prefixIcon: SvgPicture.asset(complaintSvg, color: theme.outline, fit: BoxFit.scaleDown,),
                         ),
                         validator: (descp) =>
                             Validator.validateEmptyText("Description", descp),

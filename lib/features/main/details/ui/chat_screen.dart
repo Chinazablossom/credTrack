@@ -10,9 +10,11 @@ import '../widgets/message_input.dart';
 import '../widgets/update_bubble.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key, required this.ticket});
+  const ChatScreen(
+      {super.key, required this.ticket, this.senderLabel = 'User'});
 
   final TicketModel ticket;
+  final String senderLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class ChatScreen extends StatelessWidget {
                       CTBackButton(),
                       12.w,
                       Text(
-                        "Chat With Support",
+                       senderLabel == 'User' ? "Chat With Support" : "Chat with user",
                         style: textTheme.titleSmall?.copyWith(
                           color: theme.inverseSurface,
                         ),
@@ -116,13 +118,14 @@ class ChatScreen extends StatelessWidget {
                           separatorBuilder: (_, __) => 1.h,
                           itemBuilder: (_, index) => UpdateBubble(
                             update: controller.updates[index],
+                            currentSender: senderLabel,
                           ),
                         ),
                       ),
                       MessageInput(
                         controller: controller,
                         onSend: () =>
-                            controller.sendMessage(sender: 'User'),
+                            controller.sendMessage(sender: senderLabel),
                       ),
                     ],
                   ),

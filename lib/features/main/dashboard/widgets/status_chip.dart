@@ -13,7 +13,7 @@ class StatusChip extends StatelessWidget {
         bg = Colors.green;
         break;
       case 'In Progress':
-        bg = Colors.blue;
+        bg = Colors.blueAccent;
         break;
       default:
         bg = Color(0xffff9307);

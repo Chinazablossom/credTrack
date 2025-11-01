@@ -67,6 +67,8 @@ class TicketDao {
       'description': ticket.description,
       'status': ticket.status,
       'created_at': ticket.createdAt,
+      'tx_ref': ticket.transactionRef,
+      'evidence_path': ticket.evidencePath,
     };
 
     await db.insert(AppDatabase.tableTickets, map,
@@ -79,5 +81,14 @@ class TicketDao {
     final rows = await db.query(AppDatabase.tableTicketUpdates,
         where: 'ticket_id = ?', whereArgs: [ticketId], orderBy: 'timestamp');
     return rows.map((m) => TicketUpdateModel.fromMap(m)).toList();
+  }
+
+  Future<List<TicketModel>> getAllTickets() async {
+    final db = await _db;
+    final rows = await db.query(
+      AppDatabase.tableTickets,
+      orderBy: 'created_at DESC',
+    );
+    return rows.map((m) => TicketModel.fromMap(m)).toList();
   }
 }

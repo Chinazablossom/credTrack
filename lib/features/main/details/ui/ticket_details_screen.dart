@@ -4,16 +4,13 @@ import 'package:cred_track/features/main/details/ui/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/data/models/ticket.dart';
 import '../../../../core/utils/common/back_button.dart';
 import '../../../../core/utils/helper_functions/helper_functions.dart';
 import '../controller/ticket_details_controller.dart';
 import '../widgets/description_card.dart';
-import '../widgets/message_input.dart';
 import '../widgets/ticket_header.dart';
-import '../widgets/update_bubble.dart';
 
 class TicketDetailsScreen extends StatelessWidget {
   const TicketDetailsScreen({super.key, required this.ticket});
@@ -97,7 +94,7 @@ class TicketDetailsScreen extends StatelessWidget {
             right: 0,
             child: Column(
               children: [
-                // Header and description react to controller.ticket
+
                 Obx(() => TicketHeaderCard(ticket: controller.ticket.value)),
 
                 Obx(() => DescriptionCard(ticket: controller.ticket.value)),
@@ -107,17 +104,29 @@ class TicketDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
                   child: FilledButton.icon(
                     onPressed: () => Get.to(
-                      () => ChatScreen(ticket: ticket),
+                      () => ChatScreen(ticket: ticket, senderLabel: 'User'),
                       transition: Transition.rightToLeft,
                       duration: 300.milliseconds,
                     ),
                     style: FilledButton.styleFrom(
-                      minimumSize: Size(getResponsiveSpacing(context,small: double.infinity,medium: 500,large: 600), 50),
+                      minimumSize: Size(
+                        getResponsiveSpacing(
+                          context,
+                          small: double.infinity,
+                          medium: 500,
+                          large: 600,
+                        ),
+                        50,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    icon: SvgPicture.asset(supportSvg,fit: BoxFit.scaleDown,color: theme.onPrimary,),
+                    icon: SvgPicture.asset(
+                      supportSvg,
+                      fit: BoxFit.scaleDown,
+                      color: theme.onPrimary,
+                    ),
 
                     label: Text("Talk to Support"),
                   ),
