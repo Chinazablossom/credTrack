@@ -11,12 +11,6 @@ class TicketDao {
 
   Future<Database> get _db async => AppDatabase.instance.database;
 
-  Future<void> insertTicket(TicketModel ticket) async {
-    final db = await _db;
-    await db.insert(AppDatabase.tableTickets, ticket.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-  }
-
   Future<List<TicketModel>> getTicketsForUser(String userId) async {
     final db = await _db;
     final rows = await db.query(
@@ -26,14 +20,6 @@ class TicketDao {
       orderBy: 'created_at DESC',
     );
     return rows.map((m) => TicketModel.fromMap(m)).toList();
-  }
-
-  Future<TicketModel?> getTicketById(String id) async {
-    final db = await _db;
-    final rows = await db.query(AppDatabase.tableTickets,
-        where: 'ticket_id = ?', whereArgs: [id], limit: 1);
-    if (rows.isEmpty) return null;
-    return TicketModel.fromMap(rows.first);
   }
 
   Future<void> updateTicketStatus(String ticketId, String status) async {
@@ -55,7 +41,6 @@ class TicketDao {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-
   Future<void> upsertTicket(TicketModel ticket) async {
     final db = await _db;
 
@@ -74,7 +59,6 @@ class TicketDao {
     await db.insert(AppDatabase.tableTickets, map,
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
-
 
   Future<List<TicketUpdateModel>> getUpdatesForTicket(String ticketId) async {
     final db = await _db;
