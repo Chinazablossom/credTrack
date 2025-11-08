@@ -22,6 +22,7 @@ void main() async {
       .then((FirebaseApp value) => Get.put(AuthenticationRepo()));
 
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
