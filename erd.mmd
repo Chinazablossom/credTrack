@@ -1,0 +1,31 @@
+erDiagram
+    USERS {
+        int id PK
+        string name
+        string email
+        string credPalId
+        string image
+    }
+
+    TICKETS {
+        string ticket_id PK
+        int user_id FK
+        string category
+        string title
+        string description
+        string status
+        string tx_ref
+        string evidence_path
+        string created_at
+    }
+
+    TICKET_UPDATES {
+        int update_id PK
+        string ticket_id FK
+        string message
+        string sender
+        string timestamp
+    }
+
+    USERS ||--o{ TICKETS : creates
+    TICKETS ||--o{ TICKET_UPDATES : "has updates"
